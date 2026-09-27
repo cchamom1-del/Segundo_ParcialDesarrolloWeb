@@ -111,7 +111,7 @@ export function realPhotos(key) {
   if (!list) return null;
   return {
     photos: list.map((p) => url(p, 1280)),
-    cover: url(list[0], 640),
+    cover: url(list[0], 960),
     credits: list.map(([, f, author, license]) => ({
       author,
       license,
