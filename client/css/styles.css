@@ -284,8 +284,8 @@ select:disabled, input:disabled { background: var(--paper); color: var(--ink-3);
 @keyframes sk { to { background-position: -200% 0; } }
 
 @media (max-width: 1000px) {
-  .hero-grid { grid-template-columns: 1fr; }
-  .inventory { grid-template-columns: 1fr; }
+  .hero-grid { grid-template-columns: minmax(0, 1fr); }
+  .inventory { grid-template-columns: minmax(0, 1fr); }
   .filters { position: fixed; inset: 0 auto 0 0; width: min(340px, 90vw); max-height: none; border-radius: 0; z-index: 60; transform: translateX(-105%); transition: transform 0.22s; top: 0; box-shadow: var(--shadow-lift); }
   .filters.open { transform: none; }
   .filters-close, .filters-open { display: inline-flex; }
@@ -321,7 +321,8 @@ section.container.empty-state { margin-top: 40px; }
 .eye { width: 16px; height: 10px; border: 2px solid var(--brand); border-radius: 50% / 60%; position: relative; }
 .eye::after { content: ''; position: absolute; width: 4px; height: 4px; background: var(--brand); border-radius: 50%; left: 4px; top: 1px; }
 .detail-grid { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 26px; align-items: start; }
-.detail-main { display: grid; gap: 20px; min-width: 0; }
+.detail-main { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; min-width: 0; }
+.detail-main > * { min-width: 0; }
 .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-l); padding: 20px; }
 .panel h2 { margin-bottom: 14px; }
 .panel-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
@@ -420,7 +421,7 @@ section.container.empty-state { margin-top: 40px; }
 .history li.empty { display: block; color: var(--ink-2); }
 
 @media (max-width: 1000px) {
-  .detail-grid { grid-template-columns: 1fr; }
+  .detail-grid { grid-template-columns: minmax(0, 1fr); }
   .bid-panel { position: static; order: -1; }
   .detail-main { order: 0; }
 }
@@ -521,7 +522,7 @@ textarea { width: 100%; resize: vertical; }
 .checklist li.ok { color: #13703c; font-weight: 600; }
 .checklist li.ok::before { content: '✓'; }
 @media (max-width: 1000px) {
-  .publish-grid { grid-template-columns: 1fr; }
+  .publish-grid { grid-template-columns: minmax(0, 1fr); }
   .preview { position: static; order: -1; grid-template-columns: 1fr; max-width: 360px; }
   .checklist { display: none; }
 }
