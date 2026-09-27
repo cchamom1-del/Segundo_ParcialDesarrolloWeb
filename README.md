@@ -53,6 +53,10 @@ En la pantalla de **Iniciar sesión** hay botones de acceso rápido para cada us
 - **Cierre automático** cada segundo: vendido (si hubo oferta ≥ base) o desierta, con aviso al ganador, a los perdedores y al publicador.
 - Diseño claro y responsivo, accesible con teclado.
 
+## Créditos de fotografías
+
+Las fotos de los vehículos de demostración son **fotografías reales de Wikimedia Commons** con licencias libres (CC BY, CC BY-SA, CC0 o dominio público). El autor y la licencia de cada foto se muestran en la página de cada vehículo (enlace *"ver autores"* bajo el carrusel) y están listados en `server/seed/realPhotos.js`.
+
 ## Arquitectura
 
 ```

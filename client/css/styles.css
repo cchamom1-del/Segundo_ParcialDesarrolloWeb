@@ -576,3 +576,9 @@ textarea { width: 100%; resize: vertical; }
 .toast-body strong { font-size: 1rem; }
 .toast-action { font-weight: 700; align-self: center; background: var(--tag); color: var(--tag-ink); padding: 5px 10px; border-radius: 8px; }
 .toast-close { border: 0; background: none; font-size: 1.3rem; line-height: 1; cursor: pointer; color: var(--ink-3); }
+
+/* Créditos de fotografías */
+.credits { font-size: 0.85rem; color: var(--ink-2); margin-top: -8px; padding: 0 4px; }
+.credits summary { cursor: pointer; color: var(--ink-3); }
+.credits summary:hover { color: var(--brand); }
+.credits ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 2px; }

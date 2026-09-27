@@ -32,6 +32,7 @@ export default async function Detail(root, { params }) {
     <div class="detail-grid">
       <div class="detail-main">
         <div id="carousel"></div>
+        ${creditsHtml(v.credits)}
         <section class="panel">
           <h2>Ficha técnica</h2>
           <dl class="spec-grid">
@@ -298,6 +299,13 @@ export default async function Detail(root, { params }) {
     rt.watch(null);
     document.title = 'AutoPuja GT · Subastas de vehículos en vivo';
   };
+}
+
+function creditsHtml(credits) {
+  const list = (credits || []).map((c, i) => ({ ...c, n: i + 1 })).filter((c) => c && c.author);
+  if (!list.length) return '';
+  return `<details class="credits"><summary>Fotos reales de Wikimedia Commons con licencia libre · ver autores</summary>
+    <ul>${list.map((c) => `<li>Foto ${c.n}: <a href="${esc(c.source)}" target="_blank" rel="noopener">${esc(c.author)}</a>, ${esc(c.license)}</li>`).join('')}</ul></details>`;
 }
 
 function spec(k, val) {

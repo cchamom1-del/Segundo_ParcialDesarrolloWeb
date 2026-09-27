@@ -282,6 +282,7 @@ export async function getRaw(id) {
 export async function getDetail(id, user) {
   const v = await getRaw(id);
   const photos = normArr(await db().get(`photos/${id}`));
+  const credits = normArr(await db().get(`photoCredits/${id}`));
   const history = await getHistory(id, user);
   const out = publicVehicle(v, user);
   let myMax = null;
@@ -289,7 +290,7 @@ export async function getDetail(id, user) {
     const b = await db().get(`bidders/${id}/${user.id}`);
     myMax = b?.max ?? null;
   }
-  return { ...out, photos, history, myMax, viewers: rt.viewersOf(id), serverNow: Date.now() };
+  return { ...out, photos, credits, history, myMax, viewers: rt.viewersOf(id), serverNow: Date.now() };
 }
 
 const normArr = (x) => (Array.isArray(x) ? x.filter(Boolean) : x && typeof x === 'object' ? Object.values(x) : []);
@@ -348,7 +349,15 @@ export async function update(id, body, user) {
     });
     if (!res.committed) throw new HttpError(409, 'El vehículo recibió ofertas mientras editabas. Recarga e intenta de nuevo.');
     cachePut(res.value);
-    if (photos) await db().set(`photos/${id}`, photos);
+    if (photos) {
+      // Conserva los créditos de las fotos que se mantienen (alineados por posición)
+      const oldPhotos = normArr(await db().get(`photos/${id}`));
+      const oldCredits = normArr(await db().get(`photoCredits/${id}`));
+      const credits = photos.map((p) => oldCredits[oldPhotos.indexOf(p)] || { none: true });
+      await db().set(`photos/${id}`, photos);
+      if (credits.some((c) => !c.none)) await db().set(`photoCredits/${id}`, credits);
+      else await db().remove(`photoCredits/${id}`);
+    }
     rt.broadcast('catalog', { type: 'updated', vehicleId: id });
     return publicVehicle(res.value, user);
   });
@@ -359,7 +368,7 @@ export async function remove(id, user) {
     const v = await getRaw(id);
     assertCanManage(v, user);
     if (v.bidCount > 0 && user.role !== 'admin') throw new HttpError(409, 'No puedes eliminar una publicación que ya tiene ofertas.');
-    await db().update('', { [`vehicles/${id}`]: null, [`photos/${id}`]: null, [`bids/${id}`]: null, [`bidders/${id}`]: null });
+    await db().update('', { [`vehicles/${id}`]: null, [`photos/${id}`]: null, [`photoCredits/${id}`]: null, [`bids/${id}`]: null, [`bidders/${id}`]: null });
     cacheDel(id);
     rt.broadcast('catalog', { type: 'deleted', vehicleId: id });
     return { ok: true };
