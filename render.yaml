@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: autopuja-gt
+    runtime: node
+    plan: free
+    buildCommand: echo "Sin dependencias externas: no se requiere npm install"
+    startCommand: node server/index.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: 22
+      - key: JWT_SECRET
+        generateValue: true
+      - key: FIREBASE_DATABASE_URL
+        sync: false
+      - key: FIREBASE_SERVICE_ACCOUNT
+        sync: false
